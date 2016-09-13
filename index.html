@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="UTF-8">
+
+<title>Health Tracker</title>
+
+<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+<link rel="stylesheet" type="text/css" href="css/toggle-switch.css" />
+<link rel="stylesheet" type="text/css" href="css/style.css" />
+
+<script src="js/jquery-3.1.0.min.js" ></script>
+<script src="js/underscore-min.js" ></script>
+<script src="js/backbone-min.js" ></script>
+<script src="js/bootstrap.min.js" ></script>
+
+<script src="js/model/FieldsSelected.js" ></script>
+<script src="js/model/FoodItem.js" ></script>
+<script src="js/model/SearchData.js" ></script>
+<script src="js/model/FoodCollection.js" ></script>
+
+<script src="js/script.js" ></script>
+
+<script src="js/view/CalorieView.js" ></script>
+<script src="js/view/BasketView.js" ></script>
+<script src="js/view/BasketFoodView.js" ></script>
+<script src="js/view/TableButtons.js" ></script>
+<script src="js/view/FoodView.js" ></script>
+<script src="js/view/FoodsView.js" ></script>
+<script src="js/view/MainView.js" ></script>
+<script src="js/view/FieldsView.js" ></script>
+
+<script type="text/template" class="foods-list-template">
+	<div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+	<table width="100%">
+	<thead>
+		<tr>
+			<td colspan="2"><b><%= name %></b></td>
+		</tr>
+	</thead>
+	<tfoot>
+		<tr>
+			<td colspan="2"><br/><input class="setAmount" maxlength="3" max="999" size="3" type="number" min="0"> <button class="btn btn-warning add-to-basket">Add to Basket</button></td>
+		</tr>
+	</tfoot>
+	<tbody>
+		<tr class="<%= brand_class %>">
+			<td>Brand</td>
+			<td><%= brand_name %></td>
+		</tr>
+		<tr class="<%= cal_class %>">
+			<td>Calories</td>
+			<td><%= calories %></td>
+		</tr>
+		<tr class="<%= nut_class %>">
+			<td>Saturated Fat (g)</td>
+			<td><%= nf_saturated_fat %></td>
+		</tr>
+		<tr class="<%= nut_class %>">
+			<td>Monounsaturated (g)</td>
+			<td><%= nf_monounsaturated_fat %></td>
+		</tr>
+		<tr class="<%= nut_class %>">
+			<td>Polyunsaturated (g)</td>
+			<td><%= nf_polyunsaturated_fat %></td>
+		</tr>
+		<tr class="<%= nut_class %>">
+			<td>Trans Fatty Acid (g)</td>
+			<td><%= nf_trans_fatty_acid %></td>
+		</tr>
+		<tr class="<%= nut_class %>">
+			<td>Cholesterol (mg)</td>
+			<td><%= nf_cholesterol %></td>
+		</tr>
+		<tr class="<%= nut_class %>">
+			<td>Sodium (mg)</td>
+			<td><%= nf_sodium %></td>
+		</tr>
+		<tr class="<%= nut_class %>">
+			<td>Carbohydrate (g)</td>
+			<td><%= nf_total_carbohydrate %></td>
+		</tr>
+		<tr class="<%= nut_class %>">
+			<td>Of which sugars (g)</td>
+			<td><%= nf_sugars %></td>
+		</tr>
+		<tr class="<%= nut_class %>">
+			<td>Protein (g)</td>
+			<td><%= nf_protein %></td>
+		</tr>
+		<tr class="<%= nut_class %>">
+			<td>Vitamin A (% RDA)</td>
+			<td><%= nf_vitamin_a_dv %></td>
+		</tr>
+		<tr class="<%= nut_class %>">
+			<td>Vitamin C (% RDA)</td>
+			<td><%= nf_vitamin_c_dv %></td>
+		</tr>
+		<tr class="<%= nut_class %>">
+			<td>Calcium (% RDA)</td>
+			<td><%= nf_calcium_dv %></td>
+		</tr>
+		<tr class="<%= nut_class %>">
+			<td>Iron (% RDA)</td>
+			<td><%= nf_iron_dv %></td>
+		</tr>
+	</tbody>
+	</table>
+	<br/><br/>
+	</div>
+</script>
+
+<script type="text/template" class="basket-list-template">
+	<div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+	<table width="100%">
+	<thead>
+		<tr>
+			<td colspan="2"><b><%= name %></b></td>
+		</tr>
+	</thead>
+	<tfoot>
+		<tr>
+			<td colspan="2"><br/><input class="setAmount" maxlength="3" max="999" size="3" type="number" min="0" value=<%= amount %>> <button class="btn btn-warning update-amount">Update</button> <button class="btn btn-warning remove-this">Remove</button></td>
+		</tr>
+	</tfoot>
+	<tbody>
+		<tr class="<%= brand_class %>">
+			<td>Brand</td>
+			<td><%= brand_name %></td>
+		</tr>
+		<tr class="<%= cal_class %>">
+			<td>Calories</td>
+			<td><%= calories %></td>
+		</tr>
+		<tr class="<%= nut_class %>">
+			<td>Saturated Fat (g)</td>
+			<td><%= nf_saturated_fat %></td>
+		</tr>
+		<tr class="<%= nut_class %>">
+			<td>Monounsaturated (g)</td>
+			<td><%= nf_monounsaturated_fat %></td>
+		</tr>
+		<tr class="<%= nut_class %>">
+			<td>Polyunsaturated (g)</td>
+			<td><%= nf_polyunsaturated_fat %></td>
+		</tr>
+		<tr class="<%= nut_class %>">
+			<td>Trans Fatty Acid (g)</td>
+			<td><%= nf_trans_fatty_acid %></td>
+		</tr>
+		<tr class="<%= nut_class %>">
+			<td>Cholesterol (mg)</td>
+			<td><%= nf_cholesterol %></td>
+		</tr>
+		<tr class="<%= nut_class %>">
+			<td>Sodium (mg)</td>
+			<td><%= nf_sodium %></td>
+		</tr>
+		<tr class="<%= nut_class %>">
+			<td>Carbohydrate (g)</td>
+			<td><%= nf_total_carbohydrate %></td>
+		</tr>
+		<tr class="<%= nut_class %>">
+			<td>Of which sugars (g)</td>
+			<td><%= nf_sugars %></td>
+		</tr>
+		<tr class="<%= nut_class %>">
+			<td>Protein (g)</td>
+			<td><%= nf_protein %></td>
+		</tr>
+		<tr class="<%= nut_class %>">
+			<td>Vitamin A (% RDA)</td>
+			<td><%= nf_vitamin_a_dv %></td>
+		</tr>
+		<tr class="<%= nut_class %>">
+			<td>Vitamin C (% RDA)</td>
+			<td><%= nf_vitamin_c_dv %></td>
+		</tr>
+		<tr class="<%= nut_class %>">
+			<td>Calcium (% RDA)</td>
+			<td><%= nf_calcium_dv %></td>
+		</tr>
+		<tr class="<%= nut_class %>">
+			<td>Iron (% RDA)</td>
+			<td><%= nf_iron_dv %></td>
+		</tr>
+		
+	</tbody>
+	</table>
+	<br/><br/>
+	</div>
+</script>
+
+
+
+</head>
+
+<body id="application">
+
+
+<!-- Modal -->
+<div id="fieldsModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close close-modal" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">What would you like to know?</h4>
+      </div>
+      <div class="modal-body">
+      	
+            <fieldset class="modal-form">
+              <h4>Item Brand</h4>
+              <div class="switch-toggle well">
+                <input id="info-brand-on" name="rad-brand" value="on" type="radio" checked>
+                <label for="info-brand-on">On</label>
+            
+                <input id="info-brand-off" name="rad-brand" value="off" type="radio">
+                <label for="info-brand-off">Off</label>
+                
+                <a class="btn btn-warning"></a>
+                </div>
+             </fieldset>
+             
+             <fieldset>
+              <h4>Calories</h4>
+              <div class="switch-toggle well">
+                <input id="info-calories-on" name="rad-cal" value="on" type="radio" checked>
+                <label for="info-calories-on">On</label>
+            
+                <input id="info-calories-off" name="rad-cal" value="off" type="radio">
+                <label for="info-calories-off">Off</label>
+                
+                <a class="btn btn-warning"></a>
+                </div>
+             </fieldset>
+        
+            <fieldset>
+              <h4>Nutritional Information</h4>
+              <div class="switch-toggle well">
+                <input id="info-nut-on" name="rad-nut" value="on" type="radio">
+                <label for="info-nut-on">On</label>
+            
+                <input id="info-nut-off" name="rad-nut" value="off" type="radio" checked>
+                <label for="info-nut-off">Off</label>
+                
+                <a class="btn btn-warning"></a>
+                </div>
+             </fieldset>    
+   
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default close-modal" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="container">
+    
+	<div class="row">
+		<div class="col-xs-9" id="header-title">
+			<h1>Calorie Counter</h1>
+        </div>
+        <div class="col-xs-3 text-right" id="header-separator">	
+			<a href="#basket"><button type="button" class="btn btn-primary basket-button">Basket</button></a>
+        </div>
+	</div>
+    <div class="row row-search">
+    	<div class="col-xs-12 col-sm-6 row-search2" >
+            <div class="form-group row-search3">
+                <input id="new-search" class="form-control" placeholder="Search for a food!" autofocus> <a href="#"><button type="button" class="btn btn-primary btn-md search-button">Search!</button></a>
+            </div>
+        </div>
+        <div class="col-xs-6 col-sm-3">
+        	<a href="https://api.nutritionix.com" target="_blank"><img src="img/attribution.png" alt="Powered by Nutritionix API" /></a>
+        </div>
+        <div class="col-xs-6 col-sm-3 text-right">
+        	<p>Calories in basket: <span id="calorieCount">0</span></p> 
+        </div>
+    </div>
+    <div class="row">
+    	<hr />
+    </div>
+    <div class="row">
+    	<div class="col-xs-12 mainContents"> 
+        <!--Photo by Hotblack at Morguefile.com - https://morguefile.com/creative/hotblack/1/all-->
+        	<span class="resultsContainer"><!--<table class="foodsList" cellpadding="10">
+                <thead>
+                    <tr>
+                        <th><b>Food Item</b></th>
+                        <th><b>Calories</b></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody id="foodsListData">
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td id="tableButtons" align="center" colspan="3"></td>
+                    </tr>
+                </tfoot>
+            </table>--></span>
+        	<span class="imageContainer"><img src="img/tomatoes.jpg" alt="Tomatoes" class="mainImage"></span>
+            
+        </div>        
+    </div>
+    <div class="row">
+    	<div class="col-xs-12 text-center">
+        	<!-- image from http://www.opengraphicdesign.com/web/ajax-loading-graphics/ --> 
+        	<img src="img/loader64.gif" alt="Loading, please wait." id="loadingImg" class="center-block loaderOff"/>
+        </div>        
+    </div>
+    <div class="row">
+    	<div class="col-xs-12 text-center tableButtons"> 
+        
+        </div>        
+    </div>
+</div>
+</body>
+</html>

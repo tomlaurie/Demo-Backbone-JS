@@ -1,0 +1,92 @@
+@charset "utf-8";
+
+#new-search{
+	width: 50%;
+	display: inline-block;
+	position: relative;
+	top: 1px;
+}
+
+.foodsList{
+	width: 100%;
+}
+
+.tableButtons{
+	align: center;
+}
+
+.thirds{
+	width: 33.33%;
+}
+
+.mainImage{
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	z-index: 1;
+}
+
+.placeholder{
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	z-index: 0;
+}
+
+.brandOn{
+	display: block;
+}
+
+.brandOff{
+	display: none;
+}
+
+.calOn{
+	display: block;
+}
+
+.calOff{
+	display: none;
+}
+
+.nutOn{
+	display: block;
+}
+
+.nutOff{
+	display: none;
+}
+
+.resultsContainer table{
+	width: 100%;
+	table-layout: fixed;
+}
+table, td {
+   width: 100%;
+   align: left;
+}
+
+td, th {
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.tableButtons{
+	align: center;
+	position: relative;
+	top: -10px;
+}
+
+
+/****Loader from http://projects.lukehaas.me/css-loaders/ (MIT License)***/
+
+.loaderOn{
+	display:block;
+}
+
+.loaderOff{
+	display:none;
+}
+
