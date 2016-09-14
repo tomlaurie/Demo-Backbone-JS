@@ -72,7 +72,6 @@ app.routerSearch=false;
 /**
  * This function is run when the DOM is finished loading
  * It instatiates the Backbone JS objects
- * It also loads basket contents from the local storage if available
  *
  * @return      none
  */
