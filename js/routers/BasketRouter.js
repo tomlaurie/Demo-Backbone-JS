@@ -1,4 +1,4 @@
-/* script.js
+/* BasketRouter.js
  *
  * This router is activated when the basket button is clicked
  *
