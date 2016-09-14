@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta content="text/html; charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta charset="UTF-8">
 
@@ -19,10 +18,11 @@
 <script src="js/model/FieldsSelected.js" ></script>
 <script src="js/model/FoodItem.js" ></script>
 <script src="js/model/SearchData.js" ></script>
-<script src="js/model/FoodCollection.js" ></script>
+<script src="js/collections/FoodCollection.js" ></script>
 
 <script src="js/script.js" ></script>
 
+<script src="js/routers/BasketRouter.js" ></script>
 <script src="js/view/CalorieView.js" ></script>
 <script src="js/view/BasketView.js" ></script>
 <script src="js/view/BasketFoodView.js" ></script>
@@ -267,13 +267,13 @@
 			<h1>Calorie Counter</h1>
         </div>
         <div class="col-xs-3 text-right" id="header-separator">	
-			<a href="#basket"><button type="button" class="btn btn-primary basket-button">Basket</button></a>
+			<button type="button" class="btn btn-primary basket-button">Basket</button>
         </div>
 	</div>
     <div class="row row-search">
     	<div class="col-xs-12 col-sm-6 row-search2" >
             <div class="form-group row-search3">
-                <input id="new-search" class="form-control" placeholder="Search for a food!" autofocus> <a href="#"><button type="button" class="btn btn-primary btn-md search-button">Search!</button></a>
+                <input id="new-search" class="form-control" placeholder="Search for a food!" autofocus> <button type="button" class="btn btn-primary btn-md search-button">Search!</button>
             </div>
         </div>
         <div class="col-xs-6 col-sm-3">
@@ -289,22 +289,9 @@
     <div class="row">
     	<div class="col-xs-12 mainContents"> 
         <!--Photo by Hotblack at Morguefile.com - https://morguefile.com/creative/hotblack/1/all-->
-        	<span class="resultsContainer"><!--<table class="foodsList" cellpadding="10">
-                <thead>
-                    <tr>
-                        <th><b>Food Item</b></th>
-                        <th><b>Calories</b></th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody id="foodsListData">
-                </tbody>
-                <tfoot>
-                    <tr>
-                        <td id="tableButtons" align="center" colspan="3"></td>
-                    </tr>
-                </tfoot>
-            </table>--></span>
+        	<span class="resultsContainer">
+            
+            </span>
         	<span class="imageContainer"><img src="img/tomatoes.jpg" alt="Tomatoes" class="mainImage"></span>
             
         </div>        

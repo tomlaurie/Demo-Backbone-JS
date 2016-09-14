@@ -52,6 +52,7 @@ var MainView = Backbone.View.extend({
             app.firstSearchStarted = true;
             this.hideMainImage();
         }
+        location.hash = "basket";
     },
     /**
      * Hides the main placeholder image
@@ -112,12 +113,12 @@ var MainView = Backbone.View.extend({
         app.basketView.deactivate();
         app.displayBasket = false;
         app.firstSearchStarted = true;
-		
-		if(app.routerSearch===true)
-		{
-			app.fieldsSelected.set("canRender", false);
-			app.routerSearch=false;
-		}
+        location.hash = "";
+
+        if (app.routerSearch === true) {
+            app.fieldsSelected.set("canRender", false);
+            app.routerSearch = false;
+        }
 
         var self = this;
 
@@ -184,120 +185,120 @@ var MainView = Backbone.View.extend({
             "query": searchQuery
         };
 
-       // if (searchQuery === "") {
-            _.each(app.foods.toArray(), function(food) {
-                app.foods.remove(food);
-            });
-      //  } else {
-            $.ajax({
-                type: "POST",
-                url: "https://api.nutritionix.com/v1_1/search",
-                contentType: "application/json",
-                data: JSON.stringify(jsonQuery),
+        // if (searchQuery === "") {
+        _.each(app.foods.toArray(), function(food) {
+            app.foods.remove(food);
+        });
+        //  } else {
+        $.ajax({
+            type: "POST",
+            url: "https://api.nutritionix.com/v1_1/search",
+            contentType: "application/json",
+            data: JSON.stringify(jsonQuery),
 
-                success: function(data) {
+            success: function(data) {
 
-                    self.$el.find("#loadingImg").removeClass("loaderOn");
-                    self.$el.find("#loadingImg").addClass("loaderOff");
+                self.$el.find("#loadingImg").removeClass("loaderOn");
+                self.$el.find("#loadingImg").addClass("loaderOff");
 
-                    //The max number of results available
-					
-					if(app.routerSearch===true)
-					{
-						app.fieldsSelected.set("canRender", false);
-						app.routerSearch=false;
-					}
+                //The max number of results available
 
-                    if (app.fieldsSelected.get("canRender") === false && data.total > 0) {
-                        $('#fieldsModal').modal('show');
+                if (app.routerSearch === true) {
+                    app.fieldsSelected.set("canRender", false);
+                    app.routerSearch = false;
+                }
 
-                    }
-					
-                    app.searchData.set("results", data.total);
+                if (app.fieldsSelected.get("canRender") === false && data.total > 0) {
+                    $('#fieldsModal').modal('show');
+
+                }
+
+                app.searchData.set("results", data.total);
 
 
-                    //This triggers the search navigation links to re-render
-                    var completeSwitch = app.searchData.get("complete");
-                    if (completeSwitch === true) {
-                        completeSwitch = false;
-                    } else {
-                        completeSwitch = true;
-                    }
-                    app.searchData.set("complete", completeSwitch);
+                //This triggers the search navigation links to re-render
+                var completeSwitch = app.searchData.get("complete");
+                if (completeSwitch === true) {
+                    completeSwitch = false;
+                } else {
+                    completeSwitch = true;
+                }
+                app.searchData.set("complete", completeSwitch);
 
-                    //The existing search results are cleared
-                    _.each(app.foods.toArray(), function(food) {
-                        app.foods.remove(food);
+                //The existing search results are cleared
+                _.each(app.foods.toArray(), function(food) {
+                    app.foods.remove(food);
+                });
+
+                //New search results are added to the foods Collection
+                for (var i = 0; i < data.hits.length; i++) {
+
+
+                    (data.hits[i].fields.nf_serving_size_unit === null) ? sizeUnit = "": sizeUnit = data.hits[i].fields.nf_serving_size_unit;
+                    (data.hits[i].fields.nf_serving_size_qty === null) ? sizeQty = "": sizeQty = data.hits[i].fields.nf_serving_size_qty;
+
+                    var nameField = data.hits[i].fields.item_name + " - " + sizeQty + " " + sizeUnit;
+
+                    (data.hits[i].fields.nf_calories === null) ? calorieItem = 0: calorieItem = data.hits[i].fields.nf_calories;
+                    (data.hits[i].fields.brand_name === null) ? brandItem = "No data": brandItem = data.hits[i].fields.brand_name;
+                    (data.hits[i].fields.nf_total_fat === null) ? totalFatItem = "No data": totalFatItem = data.hits[i].fields.nf_total_fat;
+                    (data.hits[i].fields.nf_saturated_fat === null) ? saturatedItem = "No data": saturatedItem = data.hits[i].fields.nf_saturated_fat;
+                    (data.hits[i].fields.nf_monounsaturated_fat === null) ? monoItem = "No data": monoItem = data.hits[i].fields.nf_monounsaturated_fat;
+                    (data.hits[i].fields.nf_polyunsaturated_fat === null) ? polyItem = "No data": polyItem = data.hits[i].fields.nf_polyunsaturated_fat;
+                    (data.hits[i].fields.nf_trans_fatty_acid === null) ? transItem = "No data": transItem = data.hits[i].fields.nf_trans_fatty_acid;
+                    (data.hits[i].fields.nf_cholesterol === null) ? cholItem = "No data": cholItem = data.hits[i].fields.nf_cholesterol;
+                    (data.hits[i].fields.nf_sodium === null) ? sodiumItem = "No data": sodiumItem = data.hits[i].fields.nf_sodium;
+                    (data.hits[i].fields.nf_total_carbohydrate === null) ? carbItem = "No data": carbItem = data.hits[i].fields.nf_total_carbohydrate;
+                    (data.hits[i].fields.nf_dietary_fiber === null) ? fibreItem = "No data": fibreItem = data.hits[i].fields.nf_dietary_fiber;
+                    (data.hits[i].fields.nf_sugars === null) ? sugarItem = "No data": sugarItem = data.hits[i].fields.nf_sugars;
+                    (data.hits[i].fields.nf_protein === null) ? proteinItem = "No data": proteinItem = data.hits[i].fields.nf_protein;
+                    (data.hits[i].fields.nf_vitamin_a_dv === null) ? vitAItem = "No data": vitAItem = data.hits[i].fields.nf_vitamin_a_dv;
+                    (data.hits[i].fields.nf_vitamin_c_dv === null) ? vitCItem = "No data": vitCItem = data.hits[i].fields.nf_vitamin_c_dv;
+                    (data.hits[i].fields.nf_calcium_dv === null) ? calciumItem = "No data": calciumItem = data.hits[i].fields.nf_calcium_dv;
+                    (data.hits[i].fields.nf_iron_dv === null) ? ironItem = "No data": ironItem = data.hits[i].fields.nf_iron_dv;
+
+                    (app.fieldsSelected.get("infoCalories") === true) ? calClass = "calOn": calClass = "calOff";
+                    (app.fieldsSelected.get("infoBrand") === true) ? brandClass = "brandOn": brandClass = "brandOff";
+                    (app.fieldsSelected.get("infoNut") === true) ? nutClass = "nutOn": nutClass = "nutOff";
+
+                    var food = new FoodItem({
+                        id: data.hits[i]._id,
+                        name: nameField,
+                        calories: calorieItem,
+                        amount: 0,
+                        brand_name: brandItem,
+                        nf_total_fat: totalFatItem,
+                        nf_saturated_fat: saturatedItem,
+                        nf_monounsaturated_fat: monoItem,
+                        nf_polyunsaturated_fat: polyItem,
+                        nf_trans_fatty_acid: transItem,
+                        nf_cholesterol: cholItem,
+                        nf_sodium: sodiumItem,
+                        nf_total_carbohydrate: carbItem,
+                        nf_dietary_fiber: fibreItem,
+                        nf_sugars: sugarItem,
+                        nf_protein: proteinItem,
+                        nf_vitamin_a_dv: vitAItem,
+                        nf_vitamin_c_dv: vitCItem,
+                        nf_calcium_dv: calciumItem,
+                        nf_iron_dv: ironItem,
+                        cal_class: calClass,
+                        brand_class: brandClass,
+                        nut_class: nutClass
                     });
 
-                    //New search results are added to the foods Collection
-                    for (var i = 0; i < data.hits.length; i++) {
+                    app.foods.add(food);
 
-
-                        (data.hits[i].fields.nf_serving_size_unit === null) ? sizeUnit = "": sizeUnit = data.hits[i].fields.nf_serving_size_unit;
-                        (data.hits[i].fields.nf_serving_size_qty === null) ? sizeQty = "": sizeQty = data.hits[i].fields.nf_serving_size_qty;
-
-                        var nameField = data.hits[i].fields.item_name + " - " + sizeQty + " " + sizeUnit;
-
-                        (data.hits[i].fields.nf_calories === null) ? calorieItem = 0: calorieItem = data.hits[i].fields.nf_calories;
-                        (data.hits[i].fields.brand_name === null) ? brandItem = "No data": brandItem = data.hits[i].fields.brand_name;
-                        (data.hits[i].fields.nf_total_fat === null) ? totalFatItem = "No data": totalFatItem = data.hits[i].fields.nf_total_fat;
-                        (data.hits[i].fields.nf_saturated_fat === null) ? saturatedItem = "No data": saturatedItem = data.hits[i].fields.nf_saturated_fat;
-                        (data.hits[i].fields.nf_monounsaturated_fat === null) ? monoItem = "No data": monoItem = data.hits[i].fields.nf_monounsaturated_fat;
-                        (data.hits[i].fields.nf_polyunsaturated_fat === null) ? polyItem = "No data": polyItem = data.hits[i].fields.nf_polyunsaturated_fat;
-                        (data.hits[i].fields.nf_trans_fatty_acid === null) ? transItem = "No data": transItem = data.hits[i].fields.nf_trans_fatty_acid;
-                        (data.hits[i].fields.nf_cholesterol === null) ? cholItem = "No data": cholItem = data.hits[i].fields.nf_cholesterol;
-                        (data.hits[i].fields.nf_sodium === null) ? sodiumItem = "No data": sodiumItem = data.hits[i].fields.nf_sodium;
-                        (data.hits[i].fields.nf_total_carbohydrate === null) ? carbItem = "No data": carbItem = data.hits[i].fields.nf_total_carbohydrate;
-                        (data.hits[i].fields.nf_dietary_fiber === null) ? fibreItem = "No data": fibreItem = data.hits[i].fields.nf_dietary_fiber;
-                        (data.hits[i].fields.nf_sugars === null) ? sugarItem = "No data": sugarItem = data.hits[i].fields.nf_sugars;
-                        (data.hits[i].fields.nf_protein === null) ? proteinItem = "No data": proteinItem = data.hits[i].fields.nf_protein;
-                        (data.hits[i].fields.nf_vitamin_a_dv === null) ? vitAItem = "No data": vitAItem = data.hits[i].fields.nf_vitamin_a_dv;
-                        (data.hits[i].fields.nf_vitamin_c_dv === null) ? vitCItem = "No data": vitCItem = data.hits[i].fields.nf_vitamin_c_dv;
-                        (data.hits[i].fields.nf_calcium_dv === null) ? calciumItem = "No data": calciumItem = data.hits[i].fields.nf_calcium_dv;
-                        (data.hits[i].fields.nf_iron_dv === null) ? ironItem = "No data": ironItem = data.hits[i].fields.nf_iron_dv;
-
-                        (app.fieldsSelected.get("infoCalories") === true) ? calClass = "calOn": calClass = "calOff";
-                        (app.fieldsSelected.get("infoBrand") === true) ? brandClass = "brandOn": brandClass = "brandOff";
-                        (app.fieldsSelected.get("infoNut") === true) ? nutClass = "nutOn": nutClass = "nutOff";
-
-                        var food = new FoodItem({
-                            id: data.hits[i]._id,
-                            name: nameField,
-                            calories: calorieItem,
-                            amount: 0,
-                            brand_name: brandItem,
-                            nf_total_fat: totalFatItem,
-                            nf_saturated_fat: saturatedItem,
-                            nf_monounsaturated_fat: monoItem,
-                            nf_polyunsaturated_fat: polyItem,
-                            nf_trans_fatty_acid: transItem,
-                            nf_cholesterol: cholItem,
-                            nf_sodium: sodiumItem,
-                            nf_total_carbohydrate: carbItem,
-                            nf_dietary_fiber: fibreItem,
-                            nf_sugars: sugarItem,
-                            nf_protein: proteinItem,
-                            nf_vitamin_a_dv: vitAItem,
-                            nf_vitamin_c_dv: vitCItem,
-                            nf_calcium_dv: calciumItem,
-                            nf_iron_dv: ironItem,
-                            cal_class: calClass,
-                            brand_class: brandClass,
-                            nut_class: nutClass
-                        });
-
-                        app.foods.add(food);
-                    }
-                },
-                error: function() {
-                    alert("Error retrieving search data.  Check Internet connection.");
-
-                    self.$el.find("#loadingImg").removeClass("loaderOn");
-                    self.$el.find("#loadingImg").addClass("loaderOff");
                 }
-            });
-     //  }
+            },
+            error: function() {
+                alert("Error retrieving search data.  Check Internet connection.");
+
+                self.$el.find("#loadingImg").removeClass("loaderOn");
+                self.$el.find("#loadingImg").addClass("loaderOff");
+            }
+        });
+        //  }
 
 
     }

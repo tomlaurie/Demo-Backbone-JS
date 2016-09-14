@@ -70,38 +70,6 @@ app.routerSearch=false;
 
 
 /**
- * This router is activated when the basket button is clicked
- */
-var BasketRouter = Backbone.Router.extend({
-    routes: {
-        'basket': 'viewBasket',
-        '': 'viewSearch'
-    },
-    /**
-     * When the basket is clicked, a latch is set to determine which
-     * Backbone JS view should be visible
-     *
-     * @return      none
-     */
-    viewBasket: function() {
-
-        app.tableButtons.deactivate();
-        app.foodsView.deactivate();
-        app.displayBasket = true;
-        app.basketView.activate();
-    },
-    viewSearch: function() {
-		app.routerSearch=true;
-        app.fieldsSelected.set("canRender", true);
-        app.basketView.deactivate();
-        app.displayBasket = false;
-        app.foodsView.activate();
-        app.tableButtons.activate();
-
-    }
-});
-
-/**
  * This function is run when the DOM is finished loading
  * It instatiates the Backbone JS objects
  * It also loads basket contents from the local storage if available
@@ -126,41 +94,7 @@ $(document).ready(function() {
         show: false
     });
 
-    if (typeof(Storage) !== "undefined") {
-        app.localStorageEnabled = true;
-
-        //get basket from local storage
-        if (localStorage.getItem("basket") !== null) {
-            var basketArray = JSON.parse(localStorage.getItem("basket"));
-            for (var i = 0; i < basketArray.length; i++) {
-                app.basket.add(new FoodItem({
-                    id: basketArray[i].id,
-                    name: basketArray[i].name,
-                    calories: basketArray[i].calories,
-                    amount: basketArray[i].amount,
-                    brand_name: basketArray[i].brand_name,
-                    nf_total_fat: basketArray[i].nf_total_fat,
-                    nf_saturated_fat: basketArray[i].nf_saturated_fat,
-                    nf_monounsaturated_fat: basketArray[i].nf_monounsaturated_fat,
-                    nf_polyunsaturated_fat: basketArray[i].nf_polyunsaturated_fat,
-                    nf_trans_fatty_acid: basketArray[i].nf_trans_fatty_acid,
-                    nf_cholesterol: basketArray[i].nf_cholesterol,
-                    nf_sodium: basketArray[i].nf_sodium,
-                    nf_total_carbohydrate: basketArray[i].nf_total_carbohydrate,
-                    nf_dietary_fiber: basketArray[i].nf_dietary_fiber,
-                    nf_sugars: basketArray[i].nf_sugars,
-                    nf_protein: basketArray[i].nf_protein,
-                    nf_vitamin_a_dv: basketArray[i].nf_vitamin_a_dv,
-                    nf_vitamin_c_dv: basketArray[i].nf_vitamin_c_dv,
-                    nf_calcium_dv: basketArray[i].nf_calcium_dv,
-                    nf_iron_dv: basketArray[i].nf_iron_dv,
-                    cal_class: basketArray[i].cal_class,
-                    brand_class: basketArray[i].brand_class,
-                    nut_class: basketArray[i].nut_class
-                }));
-            }
-        }
-    }
+    
 	
 	location.hash="";
 

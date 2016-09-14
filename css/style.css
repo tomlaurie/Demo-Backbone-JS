@@ -1,92 +1,94 @@
 @charset "utf-8";
 
-#new-search{
-	width: 50%;
-	display: inline-block;
-	position: relative;
-	top: 1px;
+#new-search {
+    width: 50%;
+    display: inline-block;
+    position: relative;
+    top: 1px;
 }
 
-.foodsList{
-	width: 100%;
+.foodsList {
+    width: 100%;
 }
 
-.tableButtons{
-	align: center;
+.tableButtons {
+    align: center;
 }
 
-.thirds{
-	width: 33.33%;
+.thirds {
+    width: 33.33%;
 }
 
-.mainImage{
-	position: absolute;
-	top: 0px;
-	left: 0px;
-	width: 100%;
-	z-index: 1;
+.mainImage {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    z-index: 1;
 }
 
-.placeholder{
-	position: absolute;
-	top: 0px;
-	left: 0px;
-	width: 100%;
-	z-index: 0;
+.placeholder {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    z-index: 0;
 }
 
-.brandOn{
-	display: block;
+.brandOn {
+    display: block;
 }
 
-.brandOff{
-	display: none;
+.brandOff {
+    display: none;
 }
 
-.calOn{
-	display: block;
+.calOn {
+    display: block;
 }
 
-.calOff{
-	display: none;
+.calOff {
+    display: none;
 }
 
-.nutOn{
-	display: block;
+.nutOn {
+    display: block;
 }
 
-.nutOff{
-	display: none;
+.nutOff {
+    display: none;
 }
 
-.resultsContainer table{
-	width: 100%;
-	table-layout: fixed;
+.resultsContainer table {
+    width: 100%;
+    table-layout: fixed;
 }
+
 table, td {
-   width: 100%;
-   align: left;
+    width: 100%;
+    align: left;
 }
 
 td, th {
-  white-space: nowrap;
-  overflow: hidden;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
-.tableButtons{
-	align: center;
-	position: relative;
-	top: -10px;
+.tableButtons {
+    align: center;
+    position: relative;
+    top: -10px;
 }
 
 
 /****Loader from http://projects.lukehaas.me/css-loaders/ (MIT License)***/
 
-.loaderOn{
-	display:block;
+.loaderOn {
+    display: block;
 }
 
-.loaderOff{
-	display:none;
+.loaderOff {
+    display: none;
 }
+
 
