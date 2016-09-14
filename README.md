@@ -1,6 +1,6 @@
 # Backbone JS Demo - Calorie Counter
 
-Version 1.0, September 8th, 2016.
+Version 1.1.1, September 14th, 2016.
 
 ### General Usage Notes
 
